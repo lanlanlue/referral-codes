@@ -44,6 +44,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          # 建議加上這個，會產生 .nojekyll 檔案避免 GitHub 誤判
+          enable_jekyll: false
           keep_files: true # Keep other files like data_example.csv if needed, but mainly we want index.html
           # We only really need index.html, but publishing root is easiest.
           # Note: This pushes the generated index.html to the gh-pages branch.
