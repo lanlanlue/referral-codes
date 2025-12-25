@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lanlanlue.github.io/referral-codes/sitemap.xml
