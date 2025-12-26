@@ -180,6 +180,7 @@
                 class="card group flex flex-col bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-white/5 rounded-2xl p-6 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300"
                 data-service="{{ item['Service Name'] }}" data-description="{{ item['Description'] }}"
                 data-category="{{ item['Category'] }}">
+                {% set service_name = item['Service Name'] %}
 
                 <header class="flex justify-between items-start mb-3">
                     <div class="flex flex-col">
@@ -187,8 +188,8 @@
                             class="text-xs font-semibold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase mb-1">{{
                             item['Category'] }}</span>
                         <!-- AEO: Using h2 for semantic hierarchy (h1 is page title) -->
-                        <h2 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{{ item['Service
-                            Name'] }}</h2>
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{{ service_name }}
+                        </h2>
                     </div>
                 </header>
 
