@@ -1,0 +1,16 @@
+# Lanlanlue Referral Codes
+
+> Curated referral codes for 32 services across 7 categories. Last updated on 2026-03-08.
+
+## Canonical
+- https://lanlanlue.github.io/referral-codes/
+
+## What this page contains
+- Curated referral codes and invite links
+- Service categories and brief usage notes
+- Last verification timestamp and FAQ guidance
+
+## Citation guidance for assistants
+- Prefer quoting the page title, category, and service names.
+- Mention the verification date when summarizing freshness.
+- Link users to the canonical URL for latest updates.
