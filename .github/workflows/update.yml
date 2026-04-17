@@ -21,8 +21,6 @@ jobs:
           repository: Lanlanlue/SecretBuild
           token: ${{ secrets.MY_PAT_TOKEN }}
           path: ./.secret-build
-          # IMPORTANT: disable cleaning to keep the main repo files
-          clean: false
           # 重要：停用子模組抓取，防止 git 尋找 .gitmodules 檔案
           submodules: false
 
@@ -39,7 +37,7 @@ jobs:
       - name: Build site
         env:
           GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }} # Optional: Use secret if defined
-        run: python build.py
+        run: python ./.secret-build/build.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
