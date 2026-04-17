@@ -37,7 +37,7 @@ jobs:
       - name: Build site
         env:
           GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }} # Optional: Use secret if defined
-        run: python ./.secret-build/build.py
+        run: python build.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
