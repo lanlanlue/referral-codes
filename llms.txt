@@ -1,6 +1,6 @@
 # Lanlanlue Referral Codes
 
-> Curated referral codes for 32 services across 7 categories. Last updated on 2026-03-08.
+> Curated referral codes for 31 services across 7 categories. Last updated on 2026-03-08.
 
 ## Canonical
 - https://lanlanlue.github.io/referral-codes/
