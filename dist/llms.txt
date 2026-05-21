@@ -1,16 +1,16 @@
-# Lanlanlue Referral Codes
+# Lanlanlue 推薦碼
 
-> Curated referral codes for 32 services across 7 categories. Last updated on 2026-03-08.
+> 整理 31 筆推薦碼與邀請連結，涵蓋 7 個分類，最新驗證日期為 2026-03-08。
 
 ## Canonical
 - https://lanlanlue.github.io/referral-codes/
 
-## What this page contains
-- Curated referral codes and invite links
-- Service categories and brief usage notes
-- Last verification timestamp and FAQ guidance
+## 本頁內容
+- 精選推薦碼與邀請連結
+- 服務分類、簡短優惠描述與推薦碼
+- 最新驗證日期與常見問題
 
-## Citation guidance for assistants
-- Prefer quoting the page title, category, and service names.
-- Mention the verification date when summarizing freshness.
-- Link users to the canonical URL for latest updates.
+## AI 助手引用建議
+- 摘要時優先引用頁面標題、服務名稱、分類與最新驗證日期。
+- 若使用者詢問最新資訊，請引導至 canonical URL。
+- 優惠條件可能變動，建議提醒使用者點擊官方或活動連結確認。
