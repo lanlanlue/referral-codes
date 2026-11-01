@@ -2,6 +2,7 @@
 <html lang="zh-TW" class="antialiased">
 
 <head>
+    <!-- Standard Meta & Indexing Directives -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ seo.title }}</title>
@@ -9,13 +10,23 @@
     <meta name="keywords" content="{{ seo.keywords }}">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <meta name="googlebot" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
-    <meta name="theme-color" content="#111827">
+
+    <!-- Adaptive Theme Color -->
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#09090b">
+
+    <!-- Canonical & Alternate Multilingual Hreflang Tags -->
     <link rel="canonical" href="{{ seo.canonical_url }}">
     <link rel="alternate" hreflang="zh-TW" href="{{ seo.canonical_url }}">
     <link rel="alternate" hreflang="en" href="{{ seo.canonical_url }}?lang=en">
     <link rel="alternate" hreflang="x-default" href="{{ seo.canonical_url }}">
-    <link rel="icon" href="referral.png" type="image/png">
 
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" href="referral.png" type="image/png">
+    <link rel="apple-touch-icon" href="referral.png">
+
+    <!-- OpenGraph Social Sharing Metadata -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="zh_TW">
     <meta property="og:site_name" content="{{ seo.site_name }}">
@@ -23,16 +34,23 @@
     <meta property="og:description" content="{{ seo.description }}">
     <meta property="og:url" content="{{ seo.canonical_url }}">
     <meta property="og:image" content="{{ seo.og_image }}">
+    <meta property="og:image:width" content="{{ seo.og_image_width or 1200 }}">
+    <meta property="og:image:height" content="{{ seo.og_image_height or 630 }}">
+    <meta property="og:image:alt" content="{{ seo.site_name }} 優惠與推薦碼總覽預覽">
 
+    <!-- Twitter Cards Metadata -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ seo.title }}">
     <meta name="twitter:description" content="{{ seo.description }}">
     <meta name="twitter:image" content="{{ seo.og_image }}">
+    <meta name="twitter:image:alt" content="{{ seo.site_name }} 優惠與推薦碼總覽預覽">
 
+    <!-- Preconnect & Typography Fonts (Inter + Noto Sans TC) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;800&display=swap" rel="stylesheet">
 
+    <!-- Tailwind CSS CDN & Design System Configuration -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -40,7 +58,12 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                        sans: ['Inter', 'Noto Sans TC', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    boxShadow: {
+                        'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        '2xs': '0 1px 1px 0 rgba(0, 0, 0, 0.03)',
                     }
                 }
             }
@@ -62,28 +85,58 @@
         [data-hidden="true"] {
             display: none !important;
         }
+
+        /* Swipeable horizontal chip scrollbar hide on touch screens */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 
+    <!-- Schema.org JSON-LD Structured Data Graph -->
     <script type="application/ld+json">
         {{ schema_json | safe }}
     </script>
 </head>
 
-<body class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
-    <header class="sticky top-0 z-50 backdrop-blur bg-slate-50/85 dark:bg-slate-950/85 border-b border-slate-200 dark:border-white/10">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="{{ seo.canonical_url }}" class="font-extrabold tracking-tight text-lg md:text-xl">
-                Lanlanlue Referral<span class="text-sky-500">.</span>
-            </a>
-            <div class="flex items-center gap-2">
-                <button id="langToggle" class="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-white/10">
+<body class="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-200">
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-zinc-50/85 dark:bg-zinc-950/85 border-b border-zinc-200/80 dark:border-zinc-800/80 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-6 sm:gap-8">
+                <!-- Brand Anchor & Stylized Logo -->
+                <a href="{{ seo.canonical_url }}" class="flex items-center gap-2.5 group">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                    </div>
+                    <span class="font-extrabold tracking-tight text-lg text-zinc-900 dark:text-zinc-50">
+                        {{ seo.site_name }}<span class="text-indigo-600 dark:text-indigo-400">.</span>
+                    </span>
+                </a>
+
+                <!-- Navigation Anchors (AdSense Compliance & Direct Section Jumps) -->
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                    <a href="#directory" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="nav_directory">精選推薦</a>
+                    <a href="#faq" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="nav_faq">常見問題</a>
+                    <a href="about.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="nav_about">關於本站</a>
+                </nav>
+            </div>
+
+            <!-- Header Controls: Language & Dark Mode Toggles -->
+            <div class="flex items-center gap-2.5">
+                <button id="langToggle" type="button" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
                     English
                 </button>
-                <button id="themeToggle" class="p-2 rounded-lg text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-white/10" aria-label="Toggle theme">
-                    <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <button id="themeToggle" type="button" class="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" aria-label="Toggle theme">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
-                    <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
@@ -91,148 +144,398 @@
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 py-10">
-        <section class="relative rounded-2xl overflow-hidden shadow-xl mb-10">
-            <img src="banner.png" alt="Lanlanlue referral code directory banner" class="w-full h-56 md:h-72 object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent"></div>
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight" data-i18n="hero_title">精選推薦碼與優惠總覽</h1>
-                <p class="mt-3 text-white/90 max-w-2xl leading-relaxed" data-i18n="hero_subtitle">快速找到可用的邀請連結與推薦碼，依服務名稱、描述或分類即時篩選。</p>
-                <p class="mt-4 text-xs text-white/80">
-                    <span data-i18n="updated_at">更新日期</span>:
-                    <time datetime="{{ seo.last_updated }}">{{ seo.last_updated }}</time>
-                </p>
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 md:py-10">
+        <!-- Editorial Hero Section -->
+        <section class="relative overflow-hidden pt-4 pb-6 md:pt-8 md:pb-10 text-center" aria-label="Introduction">
+            <!-- Subtle Ambient Radial Glow (Eliminates dated heavy raster banner overlay) -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-56 bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
+
+            <!-- Eyebrow Trust Badge with Live Green Ping Indicator -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/50 shadow-xs mb-5">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span data-i18n="hero_badge">站長整理 • {{ current_year }} 推薦碼與優惠分享</span>
             </div>
-        </section>
 
-        <section id="aeo-summary" class="mb-10">
-            <h2 class="text-xl font-bold mb-3" data-i18n="summary_title">頁面摘要</h2>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-6" data-i18n="summary_body">
-                本頁收錄 {{ seo.item_count }} 筆推薦碼與邀請連結，涵蓋 {{ seo.category_count }} 個分類，並提供關鍵字搜尋、分類篩選與常見問題，方便搜尋引擎與 AI 助手擷取重點。
+            <!-- High-Contrast Headline & Subtitle -->
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 leading-[1.18] max-w-3xl mx-auto" data-i18n="hero_title">
+                精選推薦碼與優惠總覽
+            </h1>
+            <p class="mt-3.5 text-sm sm:text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto" data-i18n="hero_subtitle">
+                整理站長平日有在使用的生活、數位工具與各類服務推薦碼與邀請連結，希望能幫大家順手省一點！
             </p>
-        </section>
 
-        <section class="space-y-6 mb-10" aria-label="Search and category filters">
-            <div class="max-w-xl mx-auto relative">
-                <input id="searchInput" type="search" data-i18n-placeholder="search_placeholder" placeholder="搜尋服務或描述..."
-                    class="w-full rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 px-12 py-3 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
-                    aria-label="Search services">
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
+            <!-- Live Metrics Bar (Replaces robotic AEO box with authentic human-crafted directory stats) -->
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-xs sm:text-sm">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
+                    <span class="text-zinc-500 dark:text-zinc-400" data-i18n="metric_items">收錄項目</span>
+                    <span class="font-mono font-bold text-zinc-900 dark:text-zinc-100">{{ seo.item_count }}</span>
+                </div>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
+                    <span class="text-zinc-500 dark:text-zinc-400" data-i18n="metric_categories">涵蓋分類</span>
+                    <span class="font-mono font-bold text-zinc-900 dark:text-zinc-100">{{ seo.category_count }}</span>
+                </div>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
+                    <span class="text-zinc-500 dark:text-zinc-400" data-i18n="metric_updated">最新驗證</span>
+                    <time datetime="{{ seo.last_updated }}" class="font-mono font-bold text-zinc-900 dark:text-zinc-100">{{ seo.last_updated }}</time>
                 </div>
             </div>
 
-            <div id="categoryFilters" class="flex flex-wrap justify-center gap-2">
-                <button type="button" data-category="All" class="category-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900" data-i18n="cat_all">全部</button>
+            <!-- Integrated Centerpiece Search Bar with / Keyboard Shortcut -->
+            <div class="mt-8 max-w-2xl mx-auto w-full px-2">
+                <div class="relative flex items-center shadow-lg shadow-zinc-950/5 dark:shadow-black/20 rounded-2xl group focus-within:ring-2 focus-within:ring-indigo-500/30 transition-all">
+                    <div class="absolute left-4.5 text-zinc-400 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 transition-colors pointer-events-none pl-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input id="searchInput" type="search" data-i18n-placeholder="search_placeholder" placeholder="搜尋服務名稱、優惠內容或分類... (按 / 聚焦)"
+                        class="w-full rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 pl-11 pr-16 py-3.5 text-sm md:text-base text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none transition-colors"
+                        aria-label="Search services"
+                        autocomplete="off">
+                    <div class="absolute right-4 flex items-center gap-1.5">
+                        <button id="searchClear" type="button" class="hidden text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 p-1 rounded-full text-xs" aria-label="Clear search">✕</button>
+                        <kbd class="hidden sm:inline-flex items-center justify-center h-6 px-2 text-xs font-mono font-medium text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-xs pointer-events-none" title="按下 / 鍵快速搜尋">
+                            /
+                        </kbd>
+                    </div>
+                </div>
+                <div id="searchCount" class="mt-2 text-xs text-zinc-500 dark:text-zinc-400 text-center"></div>
+            </div>
+        </section>
+
+        <!-- Header AdSense Container (Zero-CLS, Isolation Margin, Dark Glare Prevention) -->
+        <aside class="adsense-container my-6 w-full min-h-[90px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-4 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="header" aria-label="贊助廣告">
+            <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1" data-i18n="ad_label">贊助廣告</div>
+            <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位</div>
+        </aside>
+
+        <!-- Directory Section Anchor (for navigation header jump) -->
+        <div id="directory"></div>
+
+        <!-- Category Filter Horizontal Chip Bar -->
+        <div class="relative max-w-full my-6">
+            <div id="categoryFilters" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 px-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-center scroll-smooth" role="tablist" aria-label="分類篩選">
+                <button type="button" data-category="All" role="tab" aria-selected="true"
+                    class="category-btn group inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 shrink-0 whitespace-nowrap bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border border-zinc-900 dark:border-zinc-100 shadow-sm active:scale-95">
+                    <span data-i18n="cat_all">全部</span>
+                    <span class="chip-count inline-flex items-center justify-center min-w-5 h-5 px-1.5 text-[11px] font-bold rounded-full bg-zinc-800 text-zinc-200 dark:bg-zinc-200 dark:text-zinc-800 transition-colors">
+                        {{ items | length }}
+                    </span>
+                </button>
                 {% for category in categories %}
-                <button type="button" data-category="{{ category }}" class="category-btn px-4 py-2 rounded-lg text-sm font-medium border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300">
-                    {{ category }}
+                {% set c_count = category_counts[category] if (category_counts and category in category_counts) else (items | selectattr('Category', 'equalto', category) | list | length) %}
+                <button type="button" data-category="{{ category }}" role="tab" aria-selected="false"
+                    class="category-btn group inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 shrink-0 whitespace-nowrap bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200/80 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-300 dark:hover:border-zinc-700 shadow-xs active:scale-95">
+                    <span>{{ category }}</span>
+                    <span class="chip-count inline-flex items-center justify-center min-w-5 h-5 px-1.5 text-[11px] font-medium rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-zinc-200 dark:group-hover:bg-zinc-700 transition-colors">
+                        {{ c_count }}
+                    </span>
                 </button>
                 {% endfor %}
             </div>
-        </section>
+        </div>
 
+        <!-- Referral Card Grid (Adaptive 3-State Architecture) -->
         <section id="cardGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-label="Referral cards">
             {% for item in items %}
-            <article class="card bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-lg p-5 flex flex-col"
-                data-service="{{ item['Service Name'] }}"
-                data-description="{{ item['Description'] }}"
-                data-category="{{ item['Category'] }}">
-                <header class="mb-3">
-                    <p class="text-xs uppercase tracking-wide text-sky-600 dark:text-sky-400 font-semibold">{{ item['Category'] }}</p>
-                    <h2 class="text-xl font-bold mt-1">{{ item['Service Name'] }}</h2>
-                </header>
-                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed flex-grow">{{ item['Description'] }}</p>
-                <div class="mt-5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-900 p-3 flex items-center gap-2">
-                    <code class="block flex-1 text-sm font-semibold truncate select-all">{{ item['Referral Code'] }}</code>
-                    <button type="button" class="copy-btn p-2 rounded-lg border border-slate-200 dark:border-white/10 text-slate-500 hover:text-sky-600"
-                        data-code="{{ item['Referral Code'] }}" aria-label="Copy referral code">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                        </svg>
-                    </button>
+            {% set cat = (item.get('Category', '') or '') | trim %}
+            {% set code = (item.get('Referral Code', '') or '') | trim %}
+            {% set link = (item.get('Referral Link', '') or '') | trim %}
+            {% set has_code = code | length > 0 %}
+            {% set has_link = link | length > 0 %}
+
+            {# Semantic tint badge and initial avatar styling per category #}
+            {% if cat in ['生活', 'Food', 'Lifestyle'] %}
+                {% set badge_cls = 'bg-emerald-50 text-emerald-700 border-emerald-200/60 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/50' %}
+                {% set avatar_cls = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200' %}
+            {% elif cat in ['旅遊', 'Travel'] %}
+                {% set badge_cls = 'bg-sky-50 text-sky-700 border-sky-200/60 dark:bg-sky-950/50 dark:text-sky-300 dark:border-sky-800/50' %}
+                {% set avatar_cls = 'bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-200' %}
+            {% elif cat in ['學習', 'Productivity', 'Learning'] %}
+                {% set badge_cls = 'bg-indigo-50 text-indigo-700 border-indigo-200/60 dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-800/50' %}
+                {% set avatar_cls = 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-200' %}
+            {% elif cat in ['虛擬貨幣', 'Crypto'] %}
+                {% set badge_cls = 'bg-amber-50 text-amber-700 border-amber-200/60 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/50' %}
+                {% set avatar_cls = 'bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200' %}
+            {% elif cat in ['證券', 'Securities'] %}
+                {% set badge_cls = 'bg-purple-50 text-purple-700 border-purple-200/60 dark:bg-purple-950/50 dark:text-purple-300 dark:border-purple-800/50' %}
+                {% set avatar_cls = 'bg-purple-100 text-purple-800 dark:bg-purple-900/60 dark:text-purple-200' %}
+            {% elif cat in ['銀行新戶', 'Finance', 'Bank'] %}
+                {% set badge_cls = 'bg-blue-50 text-blue-700 border-blue-200/60 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800/50' %}
+                {% set avatar_cls = 'bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200' %}
+            {% elif cat in ['銀行貸款', 'Loans'] %}
+                {% set badge_cls = 'bg-teal-50 text-teal-700 border-teal-200/60 dark:bg-teal-950/50 dark:text-teal-300 dark:border-teal-800/50' %}
+                {% set avatar_cls = 'bg-teal-100 text-teal-800 dark:bg-teal-900/60 dark:text-teal-200' %}
+            {% elif cat in ['Music', 'Entertainment'] %}
+                {% set badge_cls = 'bg-rose-50 text-rose-700 border-rose-200/60 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/50' %}
+                {% set avatar_cls = 'bg-rose-100 text-rose-800 dark:bg-rose-900/60 dark:text-rose-200' %}
+            {% elif cat in ['Cloud', 'Storage', 'Tools'] %}
+                {% set badge_cls = 'bg-cyan-50 text-cyan-700 border-cyan-200/60 dark:bg-cyan-950/50 dark:text-cyan-300 dark:border-cyan-800/50' %}
+                {% set avatar_cls = 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/60 dark:text-cyan-200' %}
+            {% else %}
+                {% set badge_cls = 'bg-zinc-100 text-zinc-700 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700' %}
+                {% set avatar_cls = 'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200' %}
+            {% endif %}
+
+            <article class="card group relative bg-white dark:bg-zinc-900/90 border border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-300 dark:hover:border-zinc-700 rounded-2xl p-5 md:p-6 flex flex-col justify-between transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-zinc-900/5 dark:hover:shadow-black/40"
+                data-service="{{ item.get('Service Name', '') }}"
+                data-description="{{ item.get('Description', '') }}"
+                data-category="{{ item.get('Category', '') }}">
+                
+                <!-- Top Section: Header & Description -->
+                <div>
+                    <header class="flex items-start justify-between gap-3 mb-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <!-- Service Initial Avatar -->
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm tracking-tight shrink-0 select-none shadow-xs border border-black/5 dark:border-white/10 {{ avatar_cls }}">
+                                {{ (item.get('Service Name', '') or 'SP')[:2] | upper }}
+                            </div>
+                            <div class="min-w-0">
+                                <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                    {{ item.get('Service Name', '') }}
+                                </h2>
+                                <span class="inline-flex items-center px-2 py-0.5 mt-0.5 rounded-md text-[11px] font-semibold border {{ badge_cls }}">
+                                    {{ item.get('Category', '') }}
+                                </span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed flex-grow line-clamp-3 my-2 break-words">
+                        {{ item.get('Description', '') }}
+                    </p>
                 </div>
 
-                {% if item['Referral Link'] %}
-                <a href="{{ item['Referral Link'] }}" target="_blank" rel="noopener noreferrer nofollow sponsored"
-                    class="mt-4 inline-flex items-center justify-center rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 py-2.5 font-medium hover:bg-sky-600 dark:hover:bg-sky-100"
-                    data-i18n="visit_site">
-                    前往連結
-                </a>
-                {% else %}
-                <span class="mt-4 inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-white/10 py-2.5 text-sm text-slate-400"
-                    data-i18n="no_link">
-                    尚未提供連結
-                </span>
-                {% endif %}
+                <!-- Bottom Section: 3-State Code & Action Area -->
+                <div class="mt-4 pt-1">
+                    {% if has_code %}
+                    <!-- State 1 & 2: Copyable Code Box -->
+                    <div class="rounded-xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/70 p-2.5 flex items-center justify-between gap-2 overflow-hidden">
+                        <div class="min-w-0 flex-1 pl-1">
+                            <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500" data-i18n="promo_code_label">推薦碼 / 代碼</div>
+                            <code class="block font-mono text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate select-all">{{ code }}</code>
+                        </div>
+                        <button type="button" class="copy-btn shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all active:scale-95 shadow-2xs"
+                            data-code="{{ code }}" aria-label="Copy referral code">
+                            <span class="copy-icon flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                <span class="copy-label" data-i18n="copy_label">複製</span>
+                            </span>
+                            <span class="copied-icon hidden items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="copied_label">已複製!</span>
+                            </span>
+                        </button>
+                    </div>
+                    {% elif has_link %}
+                    <!-- State 3: Link-Only Auto-Apply Banner (NO empty <code> or copy button) -->
+                    <div class="rounded-xl border border-dashed border-emerald-200/60 dark:border-emerald-800/40 bg-emerald-50/40 dark:bg-emerald-950/20 p-2.5 flex items-center gap-2 text-xs text-emerald-800 dark:text-emerald-300">
+                        <svg class="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="font-medium" data-i18n="auto_apply_hint">點擊下方連結即可自動套用專屬優惠</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Action Buttons Area -->
+                    <div class="mt-3">
+                        {% if has_link %}
+                        <a href="{{ link }}" target="_blank" rel="noopener noreferrer nofollow sponsored"
+                            class="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 py-2.5 px-4 text-sm font-semibold hover:bg-indigo-600 dark:hover:bg-white hover:shadow-md transition-all active:scale-[0.98] truncate"
+                            data-i18n="visit_site">
+                            <span>前往連結</span>
+                            <svg class="w-4 h-4 opacity-75 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                        {% elif has_code %}
+                        <!-- State 2: Code Only Hint (NO broken <a> tag) -->
+                        <div class="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 py-2.5 px-4 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                            <svg class="w-4 h-4 text-zinc-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span data-i18n="no_link">結帳或註冊時手動輸入代碼（尚未提供連結）</span>
+                        </div>
+                        {% else %}
+                        <!-- State 4: Pure Info Fallback -->
+                        <div class="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 py-2.5 px-4 text-xs font-medium text-zinc-400 dark:text-zinc-500">
+                            <span data-i18n="info_only">優惠資訊分享（請至官方網站查詢）</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
             </article>
+            {% if loop.index == 3 %}
+            <!-- In-Feed AdSense Container (Zero-CLS, Isolation Margin, Dark Glare Prevention) -->
+            <aside class="adsense-container my-6 col-span-1 md:col-span-2 lg:col-span-3 w-full min-h-[250px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-6 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="infeed" aria-label="贊助廣告">
+                <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1" data-i18n="ad_label">贊助廣告</div>
+                <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位 (In-Feed)</div>
+            </aside>
+            {% endif %}
             {% endfor %}
+            {% if items | length < 3 %}
+            <!-- In-Feed AdSense Container Fallback for datasets with < 3 items -->
+            <aside class="adsense-container my-6 col-span-1 md:col-span-2 lg:col-span-3 w-full min-h-[250px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-6 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="infeed" aria-label="贊助廣告">
+                <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1" data-i18n="ad_label">贊助廣告</div>
+                <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位 (In-Feed)</div>
+            </aside>
+            {% endif %}
         </section>
 
+        <!-- No Results Feedback State -->
         <section id="noResults" class="hidden py-16 text-center">
-            <h2 class="text-lg font-semibold" data-i18n="no_results_title">找不到符合結果</h2>
-            <p class="text-slate-500 dark:text-slate-400 mt-1" data-i18n="no_results_desc">請嘗試不同關鍵字或切換分類。</p>
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-400 mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h2 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="no_results_title">找不到符合結果</h2>
+            <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-sm max-w-md mx-auto" data-i18n="no_results_desc">請嘗試不同關鍵字或切換分類。</p>
+            <button id="noResultsReset" type="button" class="mt-5 inline-flex items-center px-4 py-2 rounded-lg text-xs font-medium border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" data-i18n="no_results_reset">
+                重設所有篩選
+            </button>
         </section>
 
-        <section class="mt-14 max-w-3xl mx-auto" id="faq">
-            <h2 class="text-2xl font-bold text-center mb-6" data-i18n="faq_title">常見問題</h2>
-            <div class="space-y-3">
-                {% for faq in faqs %}
-                <details class="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-lg">
-                    <summary class="px-5 py-4 cursor-pointer font-medium">{{ faq.name }}</summary>
-                    <p class="px-5 pb-4 text-sm text-slate-600 dark:text-slate-300">{{ faq.acceptedAnswer.text }}</p>
-                </details>
-                {% endfor %}
-            </div>
-        </section>
+        <!-- FAQ and Sidebar Grid Layout -->
+        <div class="mt-14 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <!-- FAQ Accordion -->
+            <section class="lg:col-span-2" id="faq">
+                <h2 class="text-2xl font-bold text-center lg:text-left mb-6 text-zinc-900 dark:text-zinc-50" data-i18n="faq_title">常見問題</h2>
+                <div class="space-y-3">
+                    {% for faq in faqs %}
+                    <details class="group bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 rounded-xl transition-all">
+                        <summary class="px-5 py-4 cursor-pointer font-medium text-zinc-900 dark:text-zinc-100 flex items-center justify-between select-none">
+                            <span>{{ faq.name if faq.name is defined else faq.question }}</span>
+                            <svg class="w-4 h-4 text-zinc-400 group-open:rotate-180 transition-transform shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <p class="px-5 pb-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                            {{ faq.acceptedAnswer.text if (faq.acceptedAnswer is defined and faq.acceptedAnswer.text is defined) else faq.answer }}
+                        </p>
+                    </details>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Sidebar AdSense Container (Zero-CLS, Isolation Margin, Dark Glare Prevention) -->
+            <aside class="adsense-container my-6 lg:my-0 w-full min-h-[250px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-6 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="sidebar" aria-label="贊助廣告">
+                <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1" data-i18n="ad_label">贊助廣告</div>
+                <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位 (Sidebar)</div>
+            </aside>
+        </div>
+
+        <!-- Pre-Footer AdSense Container (Zero-CLS, Isolation Margin, Dark Glare Prevention) -->
+        <aside class="adsense-container my-6 w-full min-h-[90px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-4 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="footer" aria-label="贊助廣告">
+            <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1" data-i18n="ad_label">贊助廣告</div>
+            <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位</div>
+        </aside>
     </main>
 
-    <footer class="border-t border-slate-200 dark:border-white/10 py-8">
-        <div class="max-w-6xl mx-auto px-6 text-center text-sm text-slate-500 dark:text-slate-400">
-            <p>&copy; {{ current_year }} {{ seo.site_name }}.</p>
-            <p class="text-xs mt-1" data-i18n="footer_note">內容由人工整理，使用前請自行確認優惠條件。</p>
+    <!-- Footer with Compliance & Trust Page Navigation Links -->
+    <footer class="border-t border-zinc-200/80 dark:border-zinc-800/80 py-10 bg-white dark:bg-zinc-950 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            <!-- Trust & Compliance Navigation Links -->
+            <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 text-xs sm:text-sm font-medium">
+                <a href="about.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="footer_about">關於我們</a>
+                <a href="privacy.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="footer_privacy">隱私權政策</a>
+                <a href="terms.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="footer_terms">服務條款</a>
+                <a href="disclaimer.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="footer_disclaimer">免責聲明與分潤揭露</a>
+                <a href="contact.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-i18n="footer_contact">聯絡我們</a>
+            </nav>
+            <p>&copy; {{ current_year }} {{ seo.site_name }}. All rights reserved.</p>
+            <p class="text-xs mt-1 text-zinc-400 dark:text-zinc-500" data-i18n="footer_note">內容由站長手動整理，使用前請自行確認優惠條件與活動截止日。</p>
         </div>
     </footer>
 
-    <div id="toast" class="fixed bottom-6 right-6 translate-y-20 opacity-0 transition-all duration-300">
-        <div class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-lg text-sm font-medium shadow-xl" data-i18n="copied">已複製推薦碼</div>
+    <!-- Floating Toast Notification Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transition-all duration-300 opacity-0 translate-y-4 pointer-events-none max-w-[calc(100vw-3rem)]">
+        <div class="bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 px-4 py-2.5 rounded-xl text-sm font-medium shadow-2xl border border-zinc-700/50 dark:border-zinc-200/50 flex items-center gap-2">
+            <svg class="w-4 h-4 text-emerald-400 dark:text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span data-i18n="copied">已複製推薦碼</span>
+        </div>
     </div>
 
+    <!-- Client-Side Interactive Engine -->
     <script>
         const translations = {
             'zh-TW': {
+                nav_directory: '精選推薦',
+                nav_faq: '常見問題',
+                nav_about: '關於本站',
+                hero_badge: '站長整理 • {{ current_year }} 推薦碼與優惠分享',
                 hero_title: '精選推薦碼與優惠總覽',
-                hero_subtitle: '快速找到可用的邀請連結與推薦碼，依服務名稱、描述或分類即時篩選。',
-                updated_at: '更新日期',
-                summary_title: '頁面摘要',
-                summary_body: '本頁收錄 {{ seo.item_count }} 筆推薦碼與邀請連結，涵蓋 {{ seo.category_count }} 個分類，並提供關鍵字搜尋、分類篩選與常見問題，方便搜尋引擎與 AI 助手擷取重點。',
-                search_placeholder: '搜尋服務或描述...',
+                hero_subtitle: '整理站長平日有在使用的生活、數位工具與各類服務推薦碼與邀請連結，希望能幫大家順手省一點！',
+                metric_items: '收錄項目',
+                metric_categories: '涵蓋分類',
+                metric_updated: '最新驗證',
+                search_placeholder: '搜尋服務名稱、優惠內容或分類... (按 / 聚焦)',
+                search_clear: '清除搜尋',
+                search_count_all: '顯示全部項目',
+                search_count_match: '項符合結果',
                 cat_all: '全部',
+                promo_code_label: '推薦碼 / 代碼',
+                copy_label: '複製',
+                copied_label: '已複製!',
+                auto_apply_hint: '點擊下方連結即可自動套用專屬優惠',
                 visit_site: '前往連結',
-                no_link: '尚未提供連結',
+                no_link: '結帳或註冊時手動輸入代碼（尚未提供連結）',
+                info_only: '優惠資訊分享（請至官方網站查詢）',
                 no_results_title: '找不到符合結果',
                 no_results_desc: '請嘗試不同關鍵字或切換分類。',
+                no_results_reset: '重設所有篩選',
                 faq_title: '常見問題',
-                footer_note: '內容由人工整理，使用前請自行確認優惠條件。',
-                copied: '已複製推薦碼'
+                footer_about: '關於我們',
+                footer_privacy: '隱私權政策',
+                footer_terms: '服務條款',
+                footer_disclaimer: '免責聲明與分潤揭露',
+                footer_contact: '聯絡我們',
+                footer_note: '內容由站長手動整理，使用前請自行確認優惠條件與活動截止日。',
+                copied: '已複製推薦碼',
+                ad_label: '贊助廣告'
             },
             'en': {
-                hero_title: 'Curated Referral Codes',
-                hero_subtitle: 'Find active invite links and referral codes with instant search and category filters.',
-                updated_at: 'Last Updated',
-                summary_title: 'Page Summary',
-                summary_body: 'This page includes {{ seo.item_count }} referral entries across {{ seo.category_count }} categories, with live search, category filters, and an FAQ for search engines and AI assistants.',
-                search_placeholder: 'Search by service or description...',
+                nav_directory: 'Curated Directory',
+                nav_faq: 'FAQ',
+                nav_about: 'About Us',
+                hero_badge: 'Personal Curated • {{ current_year }} Referral Directory',
+                hero_title: 'Curated Referral Codes & Deals',
+                hero_subtitle: 'Personal collection of verified referral codes and discount links across lifestyle, tools, and finance.',
+                metric_items: 'Curated Offers',
+                metric_categories: 'Categories',
+                metric_updated: 'Last Verified',
+                search_placeholder: 'Search services, codes, or descriptions... (Press /)',
+                search_clear: 'Clear search',
+                search_count_all: 'Showing all offers',
+                search_count_match: 'matching offers found',
                 cat_all: 'All',
+                promo_code_label: 'Referral Code',
+                copy_label: 'Copy',
+                copied_label: 'Copied!',
+                auto_apply_hint: 'Discount applied automatically via link',
                 visit_site: 'Visit Link',
-                no_link: 'No link available',
+                no_link: 'Enter code manually at checkout (No link provided)',
+                info_only: 'Promotional offer (Visit official site)',
                 no_results_title: 'No matching result',
                 no_results_desc: 'Try another keyword or change category.',
+                no_results_reset: 'Reset filters',
                 faq_title: 'FAQ',
-                footer_note: 'Offers are manually curated. Please verify terms before use.',
-                copied: 'Copied'
+                footer_about: 'About Us',
+                footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Service',
+                footer_disclaimer: 'Disclaimer & Disclosure',
+                footer_contact: 'Contact Us',
+                footer_note: 'Curated personally. Please verify terms with providers before use.',
+                copied: 'Copied to clipboard',
+                ad_label: 'Advertisement'
             }
         };
 
@@ -241,40 +544,72 @@
 
         const cardGrid = document.getElementById('cardGrid');
         const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const searchCount = document.getElementById('searchCount');
         const noResults = document.getElementById('noResults');
+        const noResultsReset = document.getElementById('noResultsReset');
 
         function updateLanguage() {
             const t = translations[currentLang] || translations['zh-TW'];
             document.documentElement.lang = currentLang;
+
             document.querySelectorAll('[data-i18n]').forEach((el) => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) el.textContent = t[key];
             });
+
             document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (t[key]) el.setAttribute('placeholder', t[key]);
             });
-            document.getElementById('langToggle').textContent = currentLang === 'zh-TW' ? 'English' : '繁體中文';
+
+            document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-title');
+                if (t[key]) el.setAttribute('title', t[key]);
+            });
+
+            const langToggle = document.getElementById('langToggle');
+            if (langToggle) {
+                langToggle.textContent = currentLang === 'zh-TW' ? 'English' : '繁體中文';
+            }
+
+            if (typeof filterCards === 'function') {
+                filterCards();
+            }
+
             localStorage.setItem('lang', currentLang);
         }
 
         function applyCategoryButtonStyles() {
             document.querySelectorAll('.category-btn').forEach((btn) => {
                 const active = btn.getAttribute('data-category') === currentCategory;
-                btn.classList.toggle('bg-slate-900', active);
+                btn.setAttribute('aria-selected', active ? 'true' : 'false');
+                btn.classList.toggle('bg-zinc-900', active);
                 btn.classList.toggle('text-white', active);
-                btn.classList.toggle('dark:bg-slate-100', active);
-                btn.classList.toggle('dark:text-slate-900', active);
-                btn.classList.toggle('border', !active);
-                btn.classList.toggle('border-slate-300', !active);
-                btn.classList.toggle('dark:border-white/10', !active);
-                btn.classList.toggle('text-slate-700', !active);
-                btn.classList.toggle('dark:text-slate-300', !active);
+                btn.classList.toggle('dark:bg-zinc-100', active);
+                btn.classList.toggle('dark:text-zinc-900', active);
+                btn.classList.toggle('border-zinc-900', active);
+                btn.classList.toggle('dark:border-zinc-100', active);
+                btn.classList.toggle('shadow-sm', active);
+
+                btn.classList.toggle('bg-white', !active);
+                btn.classList.toggle('dark:bg-zinc-900', !active);
+                btn.classList.toggle('text-zinc-600', !active);
+                btn.classList.toggle('dark:text-zinc-400', !active);
+                btn.classList.toggle('border-zinc-200/80', !active);
+                btn.classList.toggle('dark:border-zinc-800', !active);
+                btn.classList.toggle('shadow-xs', !active);
             });
         }
 
         function filterCards() {
-            const query = (searchInput.value || '').toLowerCase().trim();
+            const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+            if (!cardGrid) return;
+
+            if (searchClear) {
+                searchClear.classList.toggle('hidden', query.length === 0);
+            }
+
             const cards = cardGrid.querySelectorAll('article.card');
             let visibleCount = 0;
 
@@ -295,28 +630,145 @@
                 }
             });
 
-            noResults.classList.toggle('hidden', visibleCount !== 0);
+            if (noResults) {
+                noResults.classList.toggle('hidden', visibleCount !== 0);
+            }
+
+            if (searchCount) {
+                const t = translations[currentLang] || translations['zh-TW'];
+                if (!query && currentCategory === 'All') {
+                    searchCount.textContent = `${t.search_count_all} (${visibleCount})`;
+                } else {
+                    searchCount.textContent = `${visibleCount} ${t.search_count_match}`;
+                }
+            }
         }
 
+        let toastTimer = null;
         function showToast() {
             const toast = document.getElementById('toast');
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 1600);
+            if (!toast) return;
+            if (toastTimer) clearTimeout(toastTimer);
+
+            toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+            }, 2000);
         }
 
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.theme = isDark ? 'dark' : 'light';
-        });
+        function copyCode(btn, code) {
+            if (!code) return;
 
-        document.getElementById('langToggle').addEventListener('click', () => {
-            currentLang = currentLang === 'zh-TW' ? 'en' : 'zh-TW';
-            updateLanguage();
-        });
+            const performFeedback = () => {
+                showToast();
 
-        searchInput.addEventListener('input', filterCards);
+                const copyIcon = btn.querySelector('.copy-icon');
+                const copiedIcon = btn.querySelector('.copied-icon');
+                if (copyIcon && copiedIcon) {
+                    copyIcon.classList.add('hidden');
+                    copyIcon.classList.remove('flex');
+                    copiedIcon.classList.remove('hidden');
+                    copiedIcon.classList.add('flex');
+                    btn.classList.add('border-emerald-300', 'dark:border-emerald-700', 'bg-emerald-50/50', 'dark:bg-emerald-950/30');
+
+                    setTimeout(() => {
+                        copyIcon.classList.remove('hidden');
+                        copyIcon.classList.add('flex');
+                        copiedIcon.classList.remove('hidden');
+                        copiedIcon.classList.remove('flex');
+                        btn.classList.remove('border-emerald-300', 'dark:border-emerald-700', 'bg-emerald-50/50', 'dark:bg-emerald-950/30');
+                    }, 1800);
+                }
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(performFeedback).catch(() => {
+                    fallbackCopy(code, performFeedback);
+                });
+            } else {
+                fallbackCopy(code, performFeedback);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+                if (callback) callback();
+            } catch (e) {
+                console.error('Fallback copy failed', e);
+            }
+            document.body.removeChild(ta);
+        }
+
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.theme = isDark ? 'dark' : 'light';
+            });
+        }
+
+        const langToggle = document.getElementById('langToggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', () => {
+                currentLang = currentLang === 'zh-TW' ? 'en' : 'zh-TW';
+                updateLanguage();
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', filterCards);
+        }
+
+        if (searchClear) {
+            searchClear.addEventListener('click', () => {
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.focus();
+                    filterCards();
+                }
+            });
+        }
+
+        if (noResultsReset) {
+            noResultsReset.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                currentCategory = 'All';
+                applyCategoryButtonStyles();
+                filterCards();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+                if (tag !== 'input' && tag !== 'textarea') {
+                    e.preventDefault();
+                    if (searchInput) {
+                        searchInput.focus();
+                        searchInput.select();
+                    }
+                }
+            }
+            if (e.key === 'Escape') {
+                if (searchInput && (document.activeElement === searchInput || searchInput.value)) {
+                    searchInput.value = '';
+                    filterCards();
+                    searchInput.blur();
+                }
+            }
+        });
 
         document.querySelectorAll('.category-btn').forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -329,7 +781,7 @@
         document.querySelectorAll('.copy-btn').forEach((btn) => {
             btn.addEventListener('click', () => {
                 const code = btn.getAttribute('data-code') || '';
-                if (code) navigator.clipboard.writeText(code).then(showToast).catch(() => {});
+                copyCode(btn, code);
             });
         });
 

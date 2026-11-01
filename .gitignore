@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.manifest
+*.cover
 .env
 venv/
 env/
@@ -19,4 +20,6 @@ build/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-build.py
+
+# Agent internal run artifacts
+.agents/

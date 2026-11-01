@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ seo.title }}</title>
+    <meta name="description" content="{{ seo.description }}">
+    <meta name="keywords" content="{{ seo.keywords }}">
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    <link rel="canonical" href="{{ seo.canonical_url }}">
+    <link rel="icon" href="referral.png" type="image/png">
+    
+    <!-- OpenGraph Metadata -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="{{ seo.site_name }}">
+    <meta property="og:title" content="{{ seo.title }}">
+    <meta property="og:description" content="{{ seo.description }}">
+    <meta property="og:url" content="{{ seo.canonical_url }}">
+    <meta property="og:image" content="{{ seo.og_image }}">
+    <meta property="og:image:width" content="{{ seo.og_image_width }}">
+    <meta property="og:image:height" content="{{ seo.og_image_height }}">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ seo.title }}">
+    <meta name="twitter:description" content="{{ seo.description }}">
+    <meta name="twitter:image" content="{{ seo.og_image }}">
+
+    <!-- Google Fonts & Tailwind CSS CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    }
+                }
+            }
+        };
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script type="application/ld+json">
+{{ schema_json | safe }}
+    </script>
+</head>
+<body class="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-200">
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-zinc-50/85 dark:bg-zinc-950/85 border-b border-zinc-200/80 dark:border-zinc-800/80 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-6 sm:gap-8">
+                <a href="{{ site_url }}/" class="flex items-center gap-2.5 group">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                    </div>
+                    <span class="font-extrabold tracking-tight text-lg text-zinc-900 dark:text-zinc-50">{{ seo.site_name }}<span class="text-indigo-600 dark:text-indigo-400">.</span></span>
+                </a>
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                    <a href="{{ site_url }}/#directory" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">精選推薦</a>
+                    <a href="about.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">關於本站</a>
+                    <a href="contact.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">聯絡我們</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <button id="themeToggle" type="button" class="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" aria-label="Toggle theme">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="Breadcrumb" class="mb-6 flex items-center gap-2 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
+            <a href="{{ site_url }}/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1 font-medium">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>首頁</span>
+            </a>
+            <svg class="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="text-zinc-900 dark:text-zinc-100 font-semibold truncate" aria-current="page">隱私權政策</span>
+        </nav>
+
+        <!-- Page Header -->
+        <section class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/50 mb-4">
+                <span>合規聲明 • 隱私權保護</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">隱私權政策 (Privacy Policy)</h1>
+            <p class="mt-3 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                說明本站如何蒐集、處理、利用個人資料，以及 Google AdSense 廣告 Cookie 與第三方技術之使用規範。
+            </p>
+            <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400">
+                <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 font-mono">最後修訂日期：{{ last_updated }}</span>
+                <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 font-mono">適用版本：v2026.1</span>
+            </div>
+        </section>
+
+        <!-- Main Article Content Card -->
+        <article class="bg-white dark:bg-zinc-900/90 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-6 sm:p-10 shadow-xs space-y-10">
+            <!-- Section 1: 引言與適用範圍 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    1. 引言與適用範圍 (Introduction & Scope)
+                </h2>
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    歡迎造訪 {{ seo.site_name }}（以下簡稱「本站」或「我們」）。我們極為重視您的個人隱私與數位資料安全。本隱私權政策旨在依據中華民國《個人資料保護法》、歐盟《通用資料保護規則》(GDPR / Regulation (EU) 2016/679) 以及美國加州《消費者隱私法》(CCPA / CPRA)，透明說明您在瀏覽與使用本站時，相關資料之蒐集範圍、處理方式與法定權利行使管道。
+                </p>
+            </section>
+
+            <!-- Section 2: 蒐集的資訊與目的 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    2. 我們蒐集的資訊與使用目的 (Information Collected & Purposes)
+                </h2>
+                <div class="space-y-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>
+                        <strong>伺服器日誌數據 (Server Logs)：</strong>當您造訪本站時，受管之代管邊緣伺服器（如 GitHub Pages / CDN 節點）會自動記錄標準 HTTP 連線紀錄，包含您的網際網路協定位址（IP 位址）、瀏覽器類型（User-Agent）、造訪時間戳記及請求網址。此類日誌僅供網路安全防護、阻擋惡意分散式阻斷服務攻擊 (DDoS) 及伺服器負載優化分析之用。
+                    </p>
+                    <p>
+                        <strong>客戶端本機儲存 (LocalStorage)：</strong>本站透過瀏覽器技術（<code>localStorage.theme</code> 與 <code>localStorage.lang</code>）儲存您的淺色/深色主題偏好與語系設定。此資訊完全留存於您的個人設備中，絕不回傳或儲存於任何後端遠端伺服器。
+                    </p>
+                    <p>
+                        <strong>純前端搜尋與篩選：</strong>本站提供的即時搜尋與分類過濾功能 100% 於您的瀏覽器記憶體內執行，絕不將您的搜尋關鍵字傳輸至外部分析資料庫。
+                    </p>
+                    <p>
+                        <strong>不蒐集敏感個人資訊：</strong>本站無需註冊會員帳號，亦不蒐集任何姓名、身分證字號、信用卡號碼、銀行帳戶或精確地理位置等敏感隱私個資。
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 3: Google AdSense 與廣告 Cookie 規範 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    3. Google AdSense 與第三方廣告技術規範 (Google AdSense & Advertising Technologies)
+                </h2>
+                <div class="space-y-4 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <div class="p-4 sm:p-5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/80">
+                        <h3 class="font-bold text-zinc-900 dark:text-zinc-100 text-sm mb-2 flex items-center gap-2">
+                            <span>Google 官方 AdSense Cookie 政策揭露事項</span>
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                            <li><strong>第三方廠商（包括 Google）會使用 Cookie 根據使用者先前造訪本網站或其他網站的紀錄投放廣告。</strong> (Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites.)</li>
+                            <li><strong>Google 使用廣告 Cookie 即表示 Google 及其合作夥伴可根據使用者造訪本網站及/或網際網路其他網站的紀錄，向使用者投放適當廣告。</strong> (Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.)</li>
+                            <li>其他第三方廣告聯播網與廠商亦可能在本站網頁投放廣告，並利用 Cookie、Web Beacons 或相關追蹤技術評估廣告成效與衡量受眾偏好。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: 廣告偏好設定與退出機制 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    4. 使用者廣告偏好設定與退出機制 (Ad Settings & Opt-Out Mechanisms)
+                </h2>
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+                    使用者享有完全自主決定是否接收個人化廣告之權利。您可以透過以下官方提供的退出（Opt-out）管道關閉個人化廣告投放：
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4 text-xs sm:text-sm">
+                    <div class="p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/40">
+                        <span class="font-bold text-zinc-900 dark:text-zinc-100 block mb-1">Google 廣告偏好設定中心</span>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">管理或停用 Google 帳號在全網的個人化廣告設定：</p>
+                        <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 underline font-mono break-all font-medium">https://adssettings.google.com</a>
+                        <span class="text-zinc-400 text-xs block mt-1">（備用連結：<a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" class="underline">www.google.com/settings/ads</a>）</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/40">
+                        <span class="font-bold text-zinc-900 dark:text-zinc-100 block mb-1">數位廣告聯盟 (DAA) 消費者選擇</span>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">全面退出參與 DAA 自律準則之跨聯播網個人化廣告：</p>
+                        <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 underline font-mono break-all font-medium">www.aboutads.info/choices/</a>
+                        <span class="text-zinc-400 text-xs block mt-1">（官網首頁：<a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer" class="underline">www.aboutads.info</a>）</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/40">
+                        <span class="font-bold text-zinc-900 dark:text-zinc-100 block mb-1">網路廣告促進協會 (NAI)</span>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">退出 NAI 會員廠商所提供之以興趣為基準之數位廣告：</p>
+                        <a href="https://optout.networkadvertising.org/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 underline font-mono break-all font-medium">optout.networkadvertising.org</a>
+                    </div>
+                    <div class="p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/40">
+                        <span class="font-bold text-zinc-900 dark:text-zinc-100 block mb-1">歐洲互動數位廣告聯盟 (EDAA)</span>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">歐盟境內受眾管理行為定向廣告之官方服務平台：</p>
+                        <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 underline font-mono break-all font-medium">www.youronlinechoices.eu</a>
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    此外，您亦可隨時於個人電腦或手機瀏覽器（Chrome、Safari、Edge、Firefox）之「隱私權與安全性」設定中，選擇封鎖所有第三方 Cookie 或清除儲存快取。請注意，停用 Cookie 可能使部分廣告不再具個人相關性，但不會減少整體廣告出現次數。
+                </p>
+            </section>
+
+            <!-- Section 5: GDPR / ePrivacy 歐盟合規 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    5. 歐盟通用資料保護規則 (GDPR / ePrivacy Compliance)
+                </h2>
+                <div class="space-y-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>
+                        <strong>合法處理基礎 (Legal Bases - Art. 6 GDPR)：</strong>
+                    </p>
+                    <ul class="list-disc list-inside space-y-1.5 pl-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                        <li><strong>正當利益 (Legitimate Interest - Art. 6(1)(f))：</strong>維護網站系統穩定、網路安全監控及基礎營運統計。</li>
+                        <li><strong>當事人同意 (Consent - Art. 6(1)(a))：</strong>針對歐洲經濟區 (EEA) 及英國境內使用者，任何個人化廣告 Cookie 與第三方技術之啟用均經由 Google 認證之同意管理機制 (CMP) 取得您的明確授權。</li>
+                    </ul>
+                    <p>
+                        <strong>當事人法定權利 (Data Subject Rights - Art. 15-22 GDPR)：</strong>
+                    </p>
+                    <ul class="list-disc list-inside space-y-1.5 pl-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                        <li><strong>存取權 (Right to Access)：</strong>確認我們是否處理與您相關之個人資料並取得副本。</li>
+                        <li><strong>更正權 (Right to Rectification)：</strong>要求更正不正確或不完整之資料。</li>
+                        <li><strong>刪除權 / 被遺忘權 (Right to Erasure)：</strong>在特定法定條件下要求刪除您的個人紀錄。</li>
+                        <li><strong>限制處理權 (Right to Restriction of Processing)：</strong>要求暫停對資料之進一步處理。</li>
+                        <li><strong>資料可攜權 (Right to Data Portability)：</strong>以結構化且機器可讀格式接收您的資料。</li>
+                        <li><strong>反對權 (Right to Object)：</strong>在正當利益或直接行銷目的下提出異議。</li>
+                        <li><strong>撤回同意權 (Right to Withdraw Consent)：</strong>隨時撤回先前給予之 Cookie 追蹤同意。</li>
+                        <li><strong>向監管機構申訴權 (Right to Lodge a Complaint)：</strong>向所屬歐盟成員國個資監管機關提出正式申訴。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 6: CCPA / CPRA 加州消費者隱私保護 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    6. 美國加州消費者隱私法 (CCPA / CPRA Disclosures)
+                </h2>
+                <div class="space-y-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>
+                        針對美國加州居民，依據 California Consumer Privacy Act (CCPA) 及 California Privacy Rights Act (CPRA) 之規定：
+                    </p>
+                    <ul class="list-disc list-inside space-y-1.5 pl-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                        <li><strong>不販售個人資料聲明：</strong>我們絕不以金錢對價販售 (Sell) 使用者之個人資料。</li>
+                        <li><strong>禁止共用個人資料聲明 (Do Not Sell or Share My Personal Info)：</strong>加州法律將跨情境行為廣告之 Cookie 共用認定為廣義的「共用 (Share)」。使用者得隨時透過上述 DAA / NAI 退出連結，或啟用瀏覽器之全域隱私控制 (Global Privacy Control - GPC) 訊號，拒絕個人資訊被用於跨網站廣告投放。</li>
+                        <li><strong>全域隱私控制 (GPC) 支援：</strong>本站主動辨識並尊重您的瀏覽器發送之 <code>Sec-GPC: 1</code> 信號，自動視為依法請求退出跨網站廣告共用。</li>
+                        <li><strong>加州消費者權利：</strong>包含知情權 (Right to Know)、刪除權 (Right to Delete)、更正權 (Right to Correct)、退出共用權 (Right to Opt-Out) 以及免於歧視性對待之保障 (Non-Discrimination)。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 7: 外部推薦連結與第三方網站 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    7. 外部推薦連結與第三方網站 (External Links Notice)
+                </h2>
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    本站收錄之推薦碼可能附帶前往第三方品牌商家官方網站之超連結（如銀行、外送服務、電商平台等）。當您點擊跳轉至外部網站時，即脫離本隱私權政策之涵蓋範圍。第三方網站有其獨立之隱私權政策與資料蒐集常規，本站對第三方網站之行為與內容概不負責。建議您在提供任何個人資訊前，詳細閱讀該商家的隱私保護政策。
+                </p>
+            </section>
+
+            <!-- Section 8: 政策修訂與聯絡窗口 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    8. 政策修訂與聯絡窗口 (Policy Amendments & Contact)
+                </h2>
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    本隱私權保護政策得配合相關法規變更或本站服務調整隨時修訂，修訂後之條款將即時公告於本頁面上方之最新修訂日期。若您對本政策、個人資料保護或第三方 Cookie 運作有任何疑問，歡迎透過 <a href="contact.html" class="text-indigo-600 dark:text-indigo-400 font-medium underline hover:no-underline">聯絡我們</a> 或直接寄送電子郵件至 <a href="mailto:contact@ointw.com" class="text-indigo-600 dark:text-indigo-400 font-medium underline font-mono hover:no-underline">contact@ointw.com</a> 與站長聯繫。
+                </p>
+            </section>
+        </article>
+
+        <!-- Pre-Footer AdSense Container (Zero-CLS, Isolation Margin, Dark Glare Prevention) -->
+        <aside class="adsense-container my-6 w-full min-h-[90px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-4 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="footer" aria-label="贊助廣告">
+            <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1">贊助廣告</div>
+            <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位</div>
+        </aside>
+    </main>
+
+    <!-- Footer with Compliance & Trust Page Navigation Links -->
+    <footer class="border-t border-zinc-200/80 dark:border-zinc-800/80 py-10 bg-white dark:bg-zinc-950 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 text-xs sm:text-sm font-medium">
+                <a href="about.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">關於我們</a>
+                <a href="privacy.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">隱私權政策</a>
+                <a href="terms.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">服務條款</a>
+                <a href="disclaimer.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">免責聲明與分潤揭露</a>
+                <a href="contact.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">聯絡我們</a>
+            </nav>
+            <p>&copy; {{ current_year }} {{ seo.site_name }}. All rights reserved.</p>
+            <p class="text-xs mt-1 text-zinc-400 dark:text-zinc-500">內容由站長手動整理，使用前請自行確認優惠條件與活動截止日。</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.theme = isDark ? 'dark' : 'light';
+            });
+        }
+    </script>
+</body>
+</html>

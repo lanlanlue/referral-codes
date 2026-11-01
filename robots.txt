@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
-Sitemap: https://lanlanlue.github.io/referral-codes/sitemap.xml
+
+User-agent: Mediapartners-Google
+Allow: /
+
+Sitemap: https://referral-codes.ointw.com/sitemap.xml

@@ -1,6 +1,9 @@
 name: Update Dashboard
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 0 * * *' # Runs daily at 00:00 UTC
   workflow_dispatch:      # Allows manual trigger
@@ -15,15 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout Secret Build Logic
-        uses: actions/checkout@v4
-        with:
-          repository: Lanlanlue/SecretBuild
-          token: ${{ secrets.MY_PAT_TOKEN }}
-          path: ./.secret-build
-          # 重要：停用子模組抓取，防止 git 尋找 .gitmodules 檔案
-          submodules: false
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -37,15 +31,18 @@ jobs:
       - name: Build site
         env:
           GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }} # Optional: Use secret if defined
-        run: python ./.secret-build/build.py
+        run: |
+          if [ -f "build.py" ]; then
+            python build.py
+          elif [ -f "./.secret-build/build.py" ]; then
+            python ./.secret-build/build.py
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          # 建議加上這個，會產生 .nojekyll 檔案避免 GitHub 誤判
+          cname: referral-codes.ointw.com
           enable_jekyll: false
-          keep_files: true # Keep other files like data_example.csv if needed, but mainly we want index.html
-          # We only really need index.html, but publishing root is easiest.
-          # Note: This pushes the generated index.html to the gh-pages branch.
+          keep_files: true

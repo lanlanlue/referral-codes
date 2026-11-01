@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ seo.title }}</title>
+    <meta name="description" content="{{ seo.description }}">
+    <meta name="keywords" content="{{ seo.keywords }}">
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    <link rel="canonical" href="{{ seo.canonical_url }}">
+    <link rel="icon" href="referral.png" type="image/png">
+    
+    <!-- OpenGraph Metadata -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="{{ seo.site_name }}">
+    <meta property="og:title" content="{{ seo.title }}">
+    <meta property="og:description" content="{{ seo.description }}">
+    <meta property="og:url" content="{{ seo.canonical_url }}">
+    <meta property="og:image" content="{{ seo.og_image }}">
+    <meta property="og:image:width" content="{{ seo.og_image_width }}">
+    <meta property="og:image:height" content="{{ seo.og_image_height }}">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ seo.title }}">
+    <meta name="twitter:description" content="{{ seo.description }}">
+    <meta name="twitter:image" content="{{ seo.og_image }}">
+
+    <!-- Google Fonts & Tailwind CSS CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    }
+                }
+            }
+        };
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script type="application/ld+json">
+{{ schema_json | safe }}
+    </script>
+</head>
+<body class="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-200">
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-zinc-50/85 dark:bg-zinc-950/85 border-b border-zinc-200/80 dark:border-zinc-800/80 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-6 sm:gap-8">
+                <a href="{{ site_url }}/" class="flex items-center gap-2.5 group">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                    </div>
+                    <span class="font-extrabold tracking-tight text-lg text-zinc-900 dark:text-zinc-50">{{ seo.site_name }}<span class="text-indigo-600 dark:text-indigo-400">.</span></span>
+                </a>
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                    <a href="{{ site_url }}/#directory" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">精選推薦</a>
+                    <a href="about.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">關於本站</a>
+                    <a href="contact.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">聯絡我們</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <button id="themeToggle" type="button" class="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" aria-label="Toggle theme">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="Breadcrumb" class="mb-6 flex items-center gap-2 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
+            <a href="{{ site_url }}/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1 font-medium">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>首頁</span>
+            </a>
+            <svg class="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="text-zinc-900 dark:text-zinc-100 font-semibold truncate" aria-current="page">免責聲明與分潤揭露</span>
+        </nav>
+
+        <!-- Page Header -->
+        <section class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/50 mb-4">
+                <span>透明公開 • 法律與利益揭露</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">免責聲明與分潤揭露 (Disclaimer & Disclosure)</h1>
+            <p class="mt-3 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                依照美國聯邦貿易委員會 (FTC 16 CFR Part 255) 與中華民國法規規範，透明揭露本站推薦連結分潤關係、廣告規範與相關免責條款。
+            </p>
+            <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400">
+                <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 font-mono">最後修訂日期：{{ last_updated }}</span>
+                <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 font-mono">遵循準則：FTC 16 CFR Part 255</span>
+            </div>
+        </section>
+
+        <!-- Main Article Content Card -->
+        <article class="bg-white dark:bg-zinc-900/90 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-6 sm:p-10 shadow-xs space-y-10">
+            <!-- Section 1: FTC 規範與聯盟行銷透明揭露 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    1. FTC 規範與推薦行銷透明揭露 (FTC Affiliate Marketing Disclosure)
+                </h2>
+                <div class="space-y-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>
+                        本站堅定恪守美國聯邦貿易委員會（FTC - 16 CFR Part 255《關於廣告背書與見證使用指引》）以及中華民國《公平交易法》之透明揭露精神：
+                    </p>
+                    <div class="p-4 sm:p-5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/80 space-y-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                        <p><strong>推薦分潤機制揭露：</strong>本站所收錄之部分外部連結與專屬推薦碼，屬於商業合作、聯盟行銷或會員好友推薦計畫（Affiliate / Referral Program）。當您透過本站連結進入商家頁面完成註冊、開戶或符合活動條件之首筆消費時，{{ seo.site_name }} 可能自合作廠商或商家獲得小額推薦佣金、平台點數折抵或迎新回饋金。</p>
+                        <p><strong>零額外成本承諾 (Zero Extra Cost Guarantee)：</strong>使用本站提供的推薦碼或點擊連結，<strong>絕不會增加您任何額外開銷或交易手續費</strong>。相反地，透過專屬推薦碼，您通常能額外享有商家官方專門提供給被推薦人之專屬迎新禮、首刷金、免運費券或利率加碼好康。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Google 贊助廣告與出站連結標記規範 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    2. Google 贊助廣告與出站連結標記規範 (Google Sponsored Link Qualification)
+                </h2>
+                <div class="space-y-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>
+                        <strong>嚴格依循 Google 搜尋中心 (Google Search Essentials) 規範：</strong>
+                        為確保出站連結符合搜尋引擎品質準則並防止 PageRank 操縱，本站所有對外商業推薦連結均明確包含下列標準屬性：
+                    </p>
+                    <div class="p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-mono text-zinc-800 dark:text-zinc-200">
+                        rel="noopener noreferrer nofollow sponsored"
+                    </div>
+                    <ul class="list-disc list-inside space-y-1.5 pl-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
+                        <li><code>sponsored</code>：明確向搜尋引擎告知該連結具備商業推薦或推廣屬性。</li>
+                        <li><code>nofollow</code>：聲明該出站連結不作為搜尋引擎投票權重傳遞。</li>
+                        <li><code>noopener noreferrer</code>：防止目標分頁獲取來源視窗控制權（反制 Reverse Tabnabbing 安全威脅），確保您的個人瀏覽環境安全。</li>
+                    </ul>
+                    <p>
+                        <strong>Google AdSense 廣告區位明確標示：</strong>本站所有廣告展示版位均依 Google AdSense 政策規定，清晰標註「贊助廣告」或「Advertisement」警語，並設定足夠之安全留白隔離（<code>my-6</code>），絕不置於容易導致使用者誤觸之操作按鈕周邊。
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 3: 非金融、投資、稅務或法律建議聲明 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    3. 非金融、投資、稅務或法律建議聲明 (No Financial, Tax or Legal Advice Warning)
+                </h2>
+                <div class="p-4 sm:p-5 rounded-xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/40 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 space-y-2 leading-relaxed">
+                    <p><strong>重大風險聲明：</strong>本站所刊登之金融類別資訊（包括但不限於數位銀行高利活存、證券開戶手續費折扣、信用卡首刷禮、虛擬通貨或貸款方案），僅為基於公開活動訊息之客觀資訊分享與一般性常識整理，<strong>絕不構成任何形式之財務規劃、投資顧問、稅務法規或法律諮詢建議</strong>。</p>
+                    <p>各類金融工具均有其專屬風險，過去之促銷活動亦不保證未來回饋。使用者在簽署任何金融合約、開立證券/銀行帳戶或進行資產投資前，應審慎評估自身財務狀況與風險承受度，並務必詳細閱讀金融機構依法公告之官方公開說明書與合約細則。</p>
+                </div>
+            </section>
+
+            <!-- Section 4: 優惠真實性與活動變更免責 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    4. 優惠真實性與活動變更免責 (Coupon Accuracy & Terms Changes)
+                </h2>
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    第三方商家享有隨時調整促銷條款、縮減折抵名額、提早終止邀請活動或更動回饋資格之完全自主權。第三方商家享有隨時調整促銷條款、縮減折抵名額、提早終止邀請活動或更動回饋資格之自主權。雖然站長平日會定期過濾與手動查驗，但無法擔保所有推薦碼與優惠資訊於任何時間點均完全有效。所有活動以各品牌商家結帳畫面或官方 App 當下公告之最新條款為準。
+                </p>
+            </section>
+
+            <!-- Section 5: 帳戶安全性與第三方交易獨立性 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    5. 帳戶安全性與第三方交易獨立性 (Account Security & Direct Merchant Relationship)
+                </h2>
+                <div class="space-y-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>
+                        <strong>絕不經手個人機密：</strong>{{ seo.site_name }} 絕不要求、蒐集或儲存您的帳號密碼、信用卡 CVV 驗證碼、銀行一次性動態密碼 (OTP) 或身分證正反面影本。所有交易均於第三方品牌之加密官方伺服器上直接完成。
+                    </p>
+                    <p>
+                        <strong>客服糾紛與爭議排除：</strong>若您在使用特定推薦碼後，因商家系統故障、未達門檻或其他原因未能獲得預期回饋，應直接聯繫該品牌之官方客服中心尋求核實。本站作為純粹之資訊目錄，無權亦無法介入商家後台之回饋派發決策。
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 6: 綜合責任免除條款 -->
+            <section>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2.5">
+                    <span class="w-2 h-6 rounded-full bg-indigo-600 dark:bg-indigo-500"></span>
+                    6. 綜合責任免除條款 (Comprehensive Limitation of Liability)
+                </h2>
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    在中華民國法律所允許之最大範圍內，本站及其維護者對任何因使用、參考本站內容或點擊出站連結所引發之相關損失，均免除一切法律責任。使用者使用本站即代表明確認知並理解促銷活動之變動性。
+                </p>
+            </section>
+        </article>
+
+        <!-- Pre-Footer AdSense Container (Zero-CLS, Isolation Margin, Dark Glare Prevention) -->
+        <aside class="adsense-container my-6 w-full min-h-[90px] rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-4 text-center flex flex-col items-center justify-center transition-colors" data-ad-slot="footer" aria-label="贊助廣告">
+            <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1">贊助廣告</div>
+            <div class="text-xs text-zinc-400 dark:text-zinc-600">Google AdSense 廣告展示區位</div>
+        </aside>
+    </main>
+
+    <!-- Footer with Compliance & Trust Page Navigation Links -->
+    <footer class="border-t border-zinc-200/80 dark:border-zinc-800/80 py-10 bg-white dark:bg-zinc-950 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4 text-xs sm:text-sm font-medium">
+                <a href="about.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">關於我們</a>
+                <a href="privacy.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">隱私權政策</a>
+                <a href="terms.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">服務條款</a>
+                <a href="disclaimer.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">免責聲明與分潤揭露</a>
+                <a href="contact.html" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">聯絡我們</a>
+            </nav>
+            <p>&copy; {{ current_year }} {{ seo.site_name }}. All rights reserved.</p>
+            <p class="text-xs mt-1 text-zinc-400 dark:text-zinc-500">內容由站長手動整理，使用前請自行確認優惠條件與活動截止日。</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.theme = isDark ? 'dark' : 'light';
+            });
+        }
+    </script>
+</body>
+</html>
