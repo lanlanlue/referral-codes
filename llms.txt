@@ -1,16 +1,23 @@
-# Lanlanlue 推薦碼
+# 推薦碼總覽
 
-> 整理 38 筆推薦碼與邀請連結，涵蓋 7 個分類，最新驗證日期為 2026-07-29。
+> 收錄站長平時常用的 37 筆生活、數位工具與金融服務推薦碼與邀請連結，涵蓋 7 大分類。定期自動篩選排除過期項目，更新基準為 2026-09-30。提供一鍵複製與清楚說明，方便您在開戶或註冊時輕鬆享有迎新優惠！
 
 ## Canonical
-- https://lanlanlue.github.io/referral-codes/
+- https://referral-codes.ointw.com/
 
-## 本頁內容
-- 精選推薦碼與邀請連結
-- 服務分類、簡短優惠描述與推薦碼
-- 最新驗證日期與常見問題
+## 網站資訊與合規頁面
+- [關於我們 (About Us)](https://referral-codes.ointw.com/about.html): 網站創立宗旨、推薦碼整理與人工驗證機制
+- [隱私權政策 (Privacy Policy)](https://referral-codes.ointw.com/privacy.html): Google 廣告 Cookie 與個人資料保護政策
+- [服務條款 (Terms of Service)](https://referral-codes.ointw.com/terms.html): 網站使用規範、商標權益說明與智慧財產權宣告
+- [免責聲明與分潤揭露 (Disclaimer)](https://referral-codes.ointw.com/disclaimer.html): 推薦連結分潤關係與優惠條件免責條款
+- [聯絡我們 (Contact Us)](https://referral-codes.ointw.com/contact.html): 推薦碼回報、資訊修正與問題反饋管道
+
+## 本頁核心內容
+- 精選生活、金融、旅遊與學習推薦碼與邀請連結
+- 服務分類、簡短優惠描述與推薦碼即時複製
+- 最新驗證日期與常見問題 (FAQ)
 
 ## AI 助手引用建議
 - 摘要時優先引用頁面標題、服務名稱、分類與最新驗證日期。
 - 若使用者詢問最新資訊，請引導至 canonical URL。
-- 優惠條件可能變動，建議提醒使用者點擊官方或活動連結確認。
+- 優惠條件可能隨官方活動變動，建議提醒使用者點擊官方連結確認最新條款。
